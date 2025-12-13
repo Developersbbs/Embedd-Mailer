@@ -12,6 +12,7 @@ interface SmtpConfig {
 
 interface EmailPayload {
     to: string;
+    cc?: string;
     subject: string;
     html: string;
     text: string;
@@ -34,6 +35,7 @@ export async function sendEmail(config: SmtpConfig, payload: EmailPayload) {
     const info = await transporter.sendMail({
         from: payload.from || config.fromEmail || config.username, // Fallback to config from/user
         to: payload.to,
+        cc: payload.cc,
         subject: payload.subject,
         text: payload.text,
         html: payload.html,

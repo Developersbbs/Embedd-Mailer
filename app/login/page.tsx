@@ -30,13 +30,7 @@ export default function LoginPage() {
         </div>
       </div>
       <div className="bg-muted relative hidden lg:block">
-        <Image
-          src="/assets/login-feature-bg.png"
-          alt="Secure Email Infrastructure"
-          fill
-          className="absolute inset-0 h-full w-full object-cover"
-          priority
-        />
+        
       </div>
     </div>
   )

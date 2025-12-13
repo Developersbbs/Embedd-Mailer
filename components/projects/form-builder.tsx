@@ -31,7 +31,6 @@ const fieldSchema = z.object({
     label: z.string().min(1, "Label is required"),
     type: z.enum(["text", "email", "number", "textarea", "checkbox", "select"]),
     required: z.boolean(),
-    placeholder: z.string().optional(),
     options: z.array(z.string()), // For select
 });
 
@@ -127,7 +126,7 @@ export function FormBuilder({ projectId, initialSchema = [] }: FormBuilderProps)
                                                     <FormLabel className="text-xs">Type</FormLabel>
                                                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                                                         <FormControl>
-                                                            <SelectTrigger>
+                                                            <SelectTrigger className="w-full">
                                                                 <SelectValue placeholder="Select type" />
                                                             </SelectTrigger>
                                                         </FormControl>
@@ -172,18 +171,6 @@ export function FormBuilder({ projectId, initialSchema = [] }: FormBuilderProps)
                                             </FormItem>
                                         )}
                                     />
-                                    <FormField
-                                        control={form.control}
-                                        name={`formSchema.${index}.placeholder`}
-                                        render={({ field }) => (
-                                            <FormItem className="flex-1">
-                                                <FormControl>
-                                                    <Input placeholder="Placeholder text..." className="h-8 text-xs" {...field} />
-                                                </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
                                 </div>
                             </CardContent>
                         </Card>
@@ -193,7 +180,7 @@ export function FormBuilder({ projectId, initialSchema = [] }: FormBuilderProps)
                 <Button
                     type="button"
                     variant="outline"
-                    onClick={() => append({ id: "", label: "", type: "text", required: false, placeholder: "", options: [] })}
+                    onClick={() => append({ id: "", label: "", type: "text", required: false, options: [] })}
                     className="w-full"
                 >
                     <Plus className="h-4 w-4 mr-2" />

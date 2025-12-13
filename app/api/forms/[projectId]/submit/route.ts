@@ -167,6 +167,7 @@ export async function POST(
 
                 const info = await sendEmail(project.smtpSettings, {
                     to,
+                    cc: project.smtpSettings.ccEmail,
                     subject,
                     text: JSON.stringify(sanitizedData, null, 2),
                     html,

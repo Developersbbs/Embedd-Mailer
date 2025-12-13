@@ -28,6 +28,11 @@ const smtpSchema = z.object({
     secure: z.boolean(),
     fromEmail: z.string().email("Invalid email").optional().or(z.literal("")),
     toEmail: z.string().email("Invalid email").optional().or(z.literal("")),
+    ccEmail: z.string().optional().or(z.literal("")).refine((val) => {
+        if (!val) return true;
+        const emails = val.split(",").map(e => e.trim());
+        return emails.every(e => z.string().email().safeParse(e).success);
+    }, "Invalid email format. Use commas to separate multiple emails."),
 });
 
 type SmtpFormValues = z.infer<typeof smtpSchema>;
@@ -51,6 +56,7 @@ export function SmtpForm({ projectId, initialData }: SmtpFormProps) {
             secure: initialData?.secure || false,
             fromEmail: initialData?.fromEmail || "",
             toEmail: initialData?.toEmail || "",
+            ccEmail: initialData?.ccEmail || "",
         },
     });
 
@@ -210,6 +216,25 @@ export function SmtpForm({ projectId, initialData }: SmtpFormProps) {
                                 </FormControl>
                                 <FormDescription>
                                     Where to send submissions (defaults to your account email).
+                                </FormDescription>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <FormField
+                        control={form.control}
+                        name="ccEmail"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>CC Email (Optional)</FormLabel>
+                                <FormControl>
+                                    <Input placeholder="manager@example.com, team@example.com" {...field} />
+                                </FormControl>
+                                <FormDescription>
+                                    Send a copy to multiple addresses (comma-separated).
                                 </FormDescription>
                                 <FormMessage />
                             </FormItem>

@@ -60,6 +60,7 @@ export async function PATCH(
                 password: body.smtpSettings.password, // Be careful with passwords, maybe only update if provided
                 fromEmail: body.smtpSettings.fromEmail,
                 toEmail: body.smtpSettings.toEmail,
+                ccEmail: body.smtpSettings.ccEmail,
             };
         }
 

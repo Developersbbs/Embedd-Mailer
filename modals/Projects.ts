@@ -15,6 +15,7 @@ const ProjectSchema = new mongoose.Schema({
         password: { type: String },
         fromEmail: { type: String },
         toEmail: { type: String },
+        ccEmail: { type: String },
     },
     formSchema: [{
         id: { type: String, required: true },
@@ -22,7 +23,6 @@ const ProjectSchema = new mongoose.Schema({
         type: { type: String, required: true, enum: ["text", "email", "number", "textarea", "checkbox", "select"] },
         required: { type: Boolean, default: false },
         options: { type: [String] },
-        placeholder: { type: String },
     }],
     emailTemplateId: { type: mongoose.Schema.Types.ObjectId, ref: "Template" }, // Active template for emails
     isActive: { type: Boolean, default: true },

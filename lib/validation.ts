@@ -6,7 +6,6 @@ interface ValidationRule {
     type: "text" | "email" | "number" | "textarea" | "checkbox" | "select";
     required: boolean;
     options?: string[];
-    placeholder?: string;
 }
 
 interface ValidationResult {
