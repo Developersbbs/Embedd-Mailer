@@ -173,7 +173,7 @@ export default function TutorialsPage() {
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData.entries());
 
-    const response = await fetch('https://your-app-url.com/api/forms/{PROJECT_ID}/submit', {
+    const response = await fetch('https://embed.sbbs.cloud/api/forms/{PROJECT_ID}/submit', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -208,7 +208,7 @@ export default function TutorialsPage() {
                                 <pre className="bg-muted p-4 rounded-md overflow-x-auto text-sm">
                                     {`const handleSubmit = async (data) => {
   try {
-    const res = await fetch('https://your-app-url.com/api/forms/{PROJECT_ID}/submit', {
+    const res = await fetch('https://embed.sbbs.cloud/api/forms/{PROJECT_ID}/submit', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -234,7 +234,7 @@ export default function TutorialsPage() {
                             </CardHeader>
                             <CardContent>
                                 <pre className="bg-muted p-4 rounded-md overflow-x-auto text-sm">
-                                    {`curl -X POST https://your-app-url.com/api/forms/{PROJECT_ID}/submit \\
+                                    {`curl -X POST https://embed.sbbs.cloud/api/forms/{PROJECT_ID}/submit \\
   -H "Content-Type: application/json" \\
   -H "x-api-key: YOUR_API_KEY" \\
   -d '{"email": "test@example.com", "message": "Hello world"}'`}
