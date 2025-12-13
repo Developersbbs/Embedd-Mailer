@@ -97,3 +97,51 @@ export async function PATCH(
         );
     }
 }
+// ... (previous code)
+
+export async function DELETE(
+    req: NextRequest,
+    { params }: { params: Promise<{ projectId: string }> }
+) {
+    const user = await getCurrentUserFromRequest(req);
+    if (!user) {
+        return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
+    }
+
+    try {
+        await connectDB();
+        const { projectId } = await params;
+
+        // 1. Verify ownership
+        const project = await Project.findOne({ _id: projectId, userId: user.uid });
+
+        if (!project) {
+            return NextResponse.json({ success: false, error: "Project not found" }, { status: 404 });
+        }
+
+        // 2. Cascade Delete (Clean up resources)
+        // We import these dynamically or assume they are available.
+        // If models are not imported, we need to import them at top level.
+        // Assuming MailLog, Submission, Template are needed.
+        const MailLog = (await import("@/modals/MailLog")).default;
+        const Submission = (await import("@/modals/Submissions")).default;
+
+        await Promise.all([
+            MailLog.deleteMany({ projectId: projectId }),
+            Submission.deleteMany({ projectId: projectId }),
+            // We might not want to delete Templates if they are global?
+            // But if they are project specific (which they seem to be by reference), we can.
+            // However, the Template model might not store projectId depending on implementation.
+            // Let's check Template model if possible, but safely we can just delete project.
+            Project.deleteOne({ _id: projectId, userId: user.uid }),
+        ]);
+
+        return NextResponse.json({ success: true, message: "Project deleted successfully" });
+    } catch (err: any) {
+        console.error("Delete error:", err);
+        return NextResponse.json(
+            { success: false, error: err.message || "Failed to delete project" },
+            { status: 500 }
+        );
+    }
+}

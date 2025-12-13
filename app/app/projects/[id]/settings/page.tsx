@@ -13,6 +13,7 @@ import { SmtpForm } from "@/components/projects/smtp-form";
 import { DomainList } from "@/components/projects/domain-list";
 import { FormBuilder } from "@/components/projects/form-builder";
 import { TemplateSelector } from "@/components/projects/template-selector";
+import { DeleteProjectCard } from "@/components/projects/delete-project-card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
@@ -89,6 +90,7 @@ export default async function SettingsPage({ params }: SettingsPageProps) {
                             </div>
                         </CardContent>
                     </Card>
+                    <DeleteProjectCard projectId={id} projectName={project.name} />
                 </TabsContent>
 
                 <TabsContent value="schema">
