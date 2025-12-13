@@ -4,6 +4,7 @@ import Link from "next/link";
 import { connectDB } from "@/lib/db";
 import Project from "@/modals/Projects";
 import MailLog from "@/modals/MailLog";
+import { ArrowLeft } from "lucide-react";
 
 interface PageProps {
   params: Promise<{
@@ -104,11 +105,11 @@ export default async function ProjectPage({ params }: PageProps) {
     <ContentLayout title={project.name}>
       {/* Header: project title + tabs */}
       <div className="flex flex-col gap-3 mb-6 sm:flex-row sm:items-center sm:justify-between">
-        <div className="min-w-0">
+        <div className="min-w-0 flex items-center gap-2">
+          <Link href="/app">
+            <ArrowLeft className="w-4 h-4" />
+          </Link>
           <h1 className="text-xl font-semibold leading-tight truncate">{project.name}</h1>
-          <p className="text-xs text-muted-foreground truncate">
-            ID: {String(project._id || "")} · Manage SMTP, domains and API access for this project.
-          </p>
         </div>
         <div className="flex gap-3">
           <Link href={`/app/projects/${id}/logs`}>
