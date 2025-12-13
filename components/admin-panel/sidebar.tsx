@@ -38,9 +38,17 @@ export function Sidebar() {
           variant="link"
           asChild
         >
-          <Link href="/" className="flex items-center gap-2">
-            <Image src="/assets/logo/embedd-logo.png" alt="Logo" width={150} height={150} className="object-contain" />
-          </Link>
+          {
+            getOpenState() ? (
+              <Link href="/" className="flex items-center gap-2">
+                <Image src="/assets/logo/embedd-logo.png" alt="Logo" width={150} height={150} className="object-contain" />
+              </Link>
+            ) : (
+              <Link href="/" className="flex items-center gap-2">
+                <Image src="/assets/logo/embedd-logo-mini.png" alt="Logo" width={50} height={50} className="object-contain" />
+              </Link>
+            )
+          }
         </Button>
         <Menu isOpen={getOpenState()} />
       </div>
