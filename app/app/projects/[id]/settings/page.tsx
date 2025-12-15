@@ -14,6 +14,7 @@ import { DomainList } from "@/components/projects/domain-list";
 import { FormBuilder } from "@/components/projects/form-builder";
 import { TemplateSelector } from "@/components/projects/template-selector";
 import { DeleteProjectCard } from "@/components/projects/delete-project-card";
+import { GeneralSettingsForm } from "@/components/projects/general-settings-form";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
@@ -74,19 +75,20 @@ export default async function SettingsPage({ params }: SettingsPageProps) {
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
-                            <div className="space-y-4">
-                                <div className="grid gap-2">
-                                    <label className="text-sm font-medium">Project Name</label>
-                                    <div className="p-2 border rounded-md bg-muted text-sm">{project.name}</div>
-                                </div>
-                                <div className="grid gap-2">
-                                    <label className="text-sm font-medium">Project ID</label>
-                                    <div className="p-2 border rounded-md bg-muted text-sm font-mono">{id}</div>
-                                </div>
-                                <div className="grid gap-2">
-                                    <label className="text-sm font-medium">API Key</label>
-                                    <div className="p-2 border rounded-md bg-muted text-sm font-mono break-all">{project.apiKey}</div>
-                                </div>
+                            <GeneralSettingsForm
+                                projectId={id}
+                                initialData={{
+                                    name: project.name,
+                                    description: project.description,
+                                }}
+                            />
+                            <div className="grid gap-2 mt-4 pt-4 border-t">
+                                <label className="text-sm font-medium">Project ID</label>
+                                <div className="p-2 border rounded-md bg-muted text-sm font-mono">{id}</div>
+                            </div>
+                            <div className="grid gap-2 mt-2">
+                                <label className="text-sm font-medium">API Key</label>
+                                <div className="p-2 border rounded-md bg-muted text-sm font-mono break-all">{project.apiKey}</div>
                             </div>
                         </CardContent>
                     </Card>
