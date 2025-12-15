@@ -175,7 +175,14 @@ export function SmtpForm({ projectId, initialData }: SmtpFormProps) {
                             <FormControl>
                                 <Checkbox
                                     checked={field.value}
-                                    onCheckedChange={field.onChange}
+                                    onCheckedChange={(checked) => {
+                                        field.onChange(checked);
+                                        if (checked === true) {
+                                            form.setValue("port", 465);
+                                        } else if (checked === false) {
+                                            form.setValue("port", 587);
+                                        }
+                                    }}
                                 />
                             </FormControl>
                             <div className="space-y-1 leading-none">
