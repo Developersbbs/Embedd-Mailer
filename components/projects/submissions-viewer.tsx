@@ -76,8 +76,8 @@ export function SubmissionsViewer({ submissions, formSchema = [] }: SubmissionsV
     // Determine columns to show
     // We prioritize fields from schema, but if no schema, we pick top 3 keys from first submission data
     const columns = formSchema.length > 0
-        ? formSchema.slice(0, 4) // Limit to first 4 columns to avoid overflow
-        : (submissions.length > 0 ? Object.keys(submissions[0].data).slice(0, 4).map(k => ({ id: k, label: k })) : []);
+        ? formSchema
+        : (submissions.length > 0 ? Object.keys(submissions[0].data).map(k => ({ id: k, label: k })) : []);
 
     return (
         <>
