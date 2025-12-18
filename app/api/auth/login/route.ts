@@ -9,6 +9,17 @@ export async function POST(req: Request) {
 
     const decoded = await firebaseAdmin.auth().verifyIdToken(idToken);
 
+    // Demo Mode Check
+    if (process.env.NEXT_PUBLIC_APP_MODE === 'demo') {
+      const allowedEmails = (process.env.DEMO_ALLOWED_EMAILS || "").split(",").map(e => e.trim());
+      if (decoded.email && !allowedEmails.includes(decoded.email)) {
+        return Response.json(
+          { success: false, error: "Access restricted! Authorized users only...." },
+          { status: 403 }
+        );
+      }
+    }
+
     const user = await userService(
       decoded.uid,
       decoded.email,
@@ -40,7 +51,7 @@ export async function POST(req: Request) {
         },
       }
     );
-  } catch (err:any) {
+  } catch (err: any) {
     return Response.json(
       { success: false, error: err.message },
       { status: 400 }
