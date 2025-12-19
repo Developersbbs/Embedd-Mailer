@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "deploy": "npm i && npm run build && pm2 restart 12"
+    "deploy": "npm i && npm run build && pm2 start npm --name embedd -- start -- --port 3003",
+    "redeploy": "npm i && npm run build && pm2 restart embedd"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
