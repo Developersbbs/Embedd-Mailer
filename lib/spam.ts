@@ -1,3 +1,5 @@
+import { LRUCache } from "lru-cache";
+
 interface SpamCheckInput {
     ip: string;
     userAgent: string;
@@ -12,21 +14,31 @@ interface SpamCheckResult {
     reason?: string;
 }
 
-// Simple in-memory rate limit (for demonstration purposes, ideally use Redis)
-const rateLimitMap = new Map<string, number>();
+// Memory-safe rate limiter using LRU Cache
+// Fixes critical memory leak from unbounded Map
+const rateLimitCache = new LRUCache<string, number>({
+    max: 5000, // Max 5000 unique IPs tracked
+    ttl: 60 * 1000, // 1 minute TTL per IP
+    allowStale: false,
+});
+
 const RATE_LIMIT_WINDOW = 60 * 1000; // 1 minute
-const MAX_REQUESTS_PER_WINDOW = 5;
+const MAX_REQUESTS_PER_WINDOW = 5; // 5 requests per minute (avg 12s gap)
 
 function checkRateLimit(ip: string): boolean {
     const now = Date.now();
-    const lastRequestTime = rateLimitMap.get(ip) || 0;
+    const lastRequestTime = rateLimitCache.get(ip) || 0;
 
-    if (now - lastRequestTime < RATE_LIMIT_WINDOW / MAX_REQUESTS_PER_WINDOW) {
+    // Enforce minimum gap between requests (Throttle)
+    // 60s / 5 reqs = 12s gap
+    const minGap = RATE_LIMIT_WINDOW / MAX_REQUESTS_PER_WINDOW;
+
+    if (now - lastRequestTime < minGap) {
         // Too fast
         return false;
     }
 
-    rateLimitMap.set(ip, now);
+    rateLimitCache.set(ip, now);
     return true;
 }
 
