@@ -3,7 +3,7 @@ import { escape } from "querystring";
 interface ValidationRule {
     id: string;
     label: string;
-    type: "text" | "email" | "number" | "textarea" | "checkbox" | "select";
+    type: "text" | "email" | "number" | "textarea" | "checkbox" | "select" | "date" | "time";
     required: boolean;
     options?: string[];
 }
@@ -57,6 +57,16 @@ export function validateAndSanitize(data: any, schema: ValidationRule[] = []): V
                     errors.push(`${field.label} must be a number.`);
                 } else {
                     value = Number(value);
+                }
+            } else if (field.type === "date") {
+                if (isNaN(Date.parse(value))) {
+                    errors.push(`${field.label} must be a valid date.`);
+                }
+            } else if (field.type === "time") {
+                // Basic time validation (HH:MM or HH:MM:SS)
+                const timeRegex = /^([01]\d|2[0-3]):([0-5]\d)(:([0-5]\d))?$/;
+                if (!timeRegex.test(value)) {
+                    errors.push(`${field.label} must be a valid time (HH:MM).`);
                 }
             }
 

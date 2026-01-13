@@ -20,7 +20,7 @@ const ProjectSchema = new mongoose.Schema({
     formSchema: [{
         id: { type: String, required: true },
         label: { type: String, required: true },
-        type: { type: String, required: true, enum: ["text", "email", "number", "textarea", "checkbox", "select"] },
+        type: { type: String, required: true, enum: ["text", "email", "number", "textarea", "checkbox", "select", "date", "time"] },
         required: { type: Boolean, default: false },
         options: { type: [String] },
     }],

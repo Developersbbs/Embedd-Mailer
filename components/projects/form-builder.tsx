@@ -29,7 +29,7 @@ import { Card, CardContent } from "@/components/ui/card";
 const fieldSchema = z.object({
     id: z.string().min(1, "ID is required").regex(/^[a-zA-Z0-9_]+$/, "Alphanumeric only"),
     label: z.string().min(1, "Label is required"),
-    type: z.enum(["text", "email", "number", "textarea", "checkbox", "select"]),
+    type: z.enum(["text", "email", "number", "textarea", "checkbox", "select", "date", "time"]),
     required: z.boolean(),
     options: z.array(z.string()), // For select
 });
@@ -137,6 +137,8 @@ export function FormBuilder({ projectId, initialSchema = [] }: FormBuilderProps)
                                                             <SelectItem value="textarea">Textarea</SelectItem>
                                                             <SelectItem value="checkbox">Checkbox</SelectItem>
                                                             <SelectItem value="select">Select</SelectItem>
+                                                            <SelectItem value="date">Date</SelectItem>
+                                                            <SelectItem value="time">Time</SelectItem>
                                                         </SelectContent>
                                                     </Select>
                                                     <FormMessage />
